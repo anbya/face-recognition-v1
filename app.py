@@ -156,7 +156,9 @@ if selected == "Tambahkan wajah":
                     if face_matched:
                         st.warning("Wajah sudah terdaftar.")
                     else:
-                        image = cv2.imdecode(np.fromstring(uploaded_file.read(), np.uint8), 1)
+                        uploaded_file.seek(0)
+                        image_uploaded = uploaded_file.read()
+                        image = cv2.imdecode(np.frombuffer(image_uploaded, np.uint8), 1)
                         add_new_face(name, image)
                         st.success(f"Wajah untuk {name} berhasil ditambahkan!")
             else:
