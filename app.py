@@ -171,15 +171,12 @@ if selected == "Tambahkan wajah":
                 # Mengonversi gambar PIL menjadi byte stream (sehingga dapat digunakan oleh face_recognition)
                 img_byte_arr = io.BytesIO()
                 image_check.save(img_byte_arr, format="JPEG")  # Menyimpan gambar sebagai PNG dalam byte stream
-                img_byte_arr = img_byte_arr.getvalue() 
-                face_matched = recognize_face(io.BytesIO(img_byte_arr))
+                img_byte_arr_value = img_byte_arr.getvalue() 
+                face_matched = recognize_face(io.BytesIO(img_byte_arr_value))
                 if face_matched:
                     st.warning("Wajah sudah terdaftar.")
                 else:
-                    # Membaca gambar sebagai byte stream
-                    image_bytes = captured_image.read()
-                    # Konversi byte stream ke array NumPy
-                    image_np = np.frombuffer(image_bytes, np.uint8)
+                    image_np = np.frombuffer(img_byte_arr_value, np.uint8)
                     image = cv2.imdecode(image_np, 1)
                     add_new_face(name, image)
                     st.success(f"Wajah untuk {name} berhasil ditambahkan!")
